@@ -48,28 +48,60 @@ struct ListNode {
     ListNode *next;
     ListNode(int x): val(x), next(NULL){}
 };
-int a[55], n;
 int main()
 {
-    while (cin >> n) {
-        for (int i = 0; i < n; i++) {
-            cin >> a[i];
-        }
+    srand(time(0));
+    int T = 1000;
+    while (T--) {
+        int n = rand() % 10 + 1;
+        int m = rand() % 10 + 1;
+        vector<int> x;
+        vector<int> y;
+        vector<int> a;
+        x.clear();
+        y.clear();
+        a.clear();
+        for (int i = 0; i < n; i++)
+            x.push_back(rand() % 100 + 1);
+        sort(x.begin(), x.end());
+        for (int i = 0; i < m; i++)
+            y.push_back(rand() % x[n-1]);
+        sort(y.begin(), y.end());
+        for (int i = 0; i < n; i++)
+            a.push_back(x[i]);
+        for (int i = m - 1; i >= 0; i--)
+            a.push_back(y[i]);
+        int goal = a[n-1];
+        n += m;
+        m = 0;
+        for (int i = 0; i < n; i++)
+            if (i == 0 || a[i] != a[i-1])
+                a[m++] = a[i];
+        n = m;
         int l = 0, r = n - 1;
-        while (l + 1 < r) {
+        while (l + 2 < r) {
             int mid = (l + r) / 2;
             int midmid = (mid + r) / 2;
+            //cout << "l=" << l << " r=" << r << endl;
+            //cout << "mid=" << a[mid] << " midmid=" << a[midmid] << endl;
             //mid may equal midmid
-            if (a[mid] <= a[midmid])
+            if (a[mid] < a[midmid])
                 l = mid;
             else
                 r = midmid;
         }
         //cout << l << " " << r << endl;
-        if (a[l] < a[r])
-            l = r;
-        cout << a[l] << endl;
+        int res = a[l];
+        if (l + 1 <= n - 1 && res < a[l+1])
+            res = a[l+1];
+        if (l + 2 <= n - 1 && res < a[l+2])
+            res = a[l+2];
+        //for (int i = 0; i < n; i++) cout << a[i] << " "; cout << endl;
+        //cout << res << " " << goal << endl;
+        assert(res == goal);
+        //cout << a[l] << endl;
     }
+    cout << "over" << endl;
 }
 /*
  8
