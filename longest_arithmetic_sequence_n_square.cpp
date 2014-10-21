@@ -61,7 +61,9 @@ int bruteForce(vector<int> a)
                 }
                 k++;
             }
+            //if (res < tp) cout << i << " " << j << endl;
             res = max(res, tp);
+            
         }
     }
     return res;
@@ -83,11 +85,9 @@ int gao(vector<int> a)
      */
     for (int i = 1; i < n - 1; i++) {
         mp.clear();
-        for (int j = 0; j < i; j++) {
+        for (int j = i - 1; j >= 0; j--) {
             int d = a[i] - a[j];
-            if (mp[d].size() > 0)
-                mp[d][0] = j;
-            else
+            if (mp[d].size() == 0)
                 mp[d].push_back(j);
         }
         for (int j = i + 1; j < n; j++) {
@@ -95,7 +95,14 @@ int gao(vector<int> a)
             if (mp[d].size() == 1) {
                 dp[i][j] = max(dp[i][j], dp[mp[d][0]][i] + 1);
                 res = max(res, dp[i][j]);
-                mp.end(d);
+                /*
+                 * if there are multiple a[i] + d after a[i], we only need to update the furthest one, as it will be
+                 * the nearest one before the next number in the sequence
+                 * but how do we know which one it is, if there are multiples?
+                 * for example, if a[i] is 1, d is 2, we may have vector a like {-1, 1, 3, 5, 3}
+                 * if we only update the last 3, it is wrong, because we don't know where 5 is
+                 */
+                //mp.erase(d);
             }
         }
         
@@ -109,7 +116,7 @@ int main ()
     while (T--) {
         vector<int> a;
         int n = rand() % N + 1;
-        //n = 10;
+        //n = 40;
         for (int i = 1; i <= n; i++) {
             a.push_back(rand() % 100);
         }
