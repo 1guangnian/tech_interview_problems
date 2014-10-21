@@ -78,7 +78,7 @@ int gao(vector<int> a)
             dp[j][i] = 2;
         }
     }
-    unordered_map<int, vector<int>> mp;
+    unordered_map<int, int> mp;
     /*
      * for each a[i], each d, we only care about two numbers: the closest two numbers x that |x-a[i]| = d
      * x1 is before a[i], x2 is after a[i]
@@ -87,13 +87,13 @@ int gao(vector<int> a)
         mp.clear();
         for (int j = i - 1; j >= 0; j--) {
             int d = a[i] - a[j];
-            if (mp[d].size() == 0)
-                mp[d].push_back(j);
+            if (mp.find(d) == mp.end())
+                mp[d] = j;
         }
         for (int j = i + 1; j < n; j++) {
             int d = a[j] - a[i];
-            if (mp[d].size() == 1) {
-                dp[i][j] = max(dp[i][j], dp[mp[d][0]][i] + 1);
+            if (mp.find(d) != mp.end()) {
+                dp[i][j] = max(dp[i][j], dp[mp[d]][i] + 1);
                 res = max(res, dp[i][j]);
                 /*
                  * if there are multiple a[i] + d after a[i], we only need to update the furthest one, as it will be
