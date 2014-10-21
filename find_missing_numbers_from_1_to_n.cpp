@@ -44,6 +44,10 @@ struct ListNode {
     ListNode *next;
     ListNode(int x): val(x), next(NULL){}
 };
+/*
+ * give unique numbers in range [l, r], find the missing ones
+ * gao({1,3}, 1, 4) will return {2,4}
+ */
 vector<int> gao(vector<int> a, int l ,int r) {
     
     if (l == r) {
@@ -69,42 +73,6 @@ vector<int> gao(vector<int> a, int l ,int r) {
         if (sum[i] != 0)
             section.push_back(i);
     }
-    /*
-     vector<int> x;
-     int first = -1, last = -1;
-     for (int i = l; i <= r; i++) {
-     if ((i - l) / sqrN == section[0]) {
-     if (first == -1)
-     first = i;
-     last = i;
-     }
-     }
-     for (int i = 0; i < a.size(); i++) {
-     if ((a[i] - l) / sqrN == section[0])
-     x.push_back(a[i]);
-     }
-     vector<int> r1 = gao(x, first, last);
-     if (section.size() == 1)
-     return r1;
-     x.clear();
-     first = last = -1;
-     for (int i = l; i <= r; i++) {
-     if ((i - l) / sqrN == section[1]) {
-     if (first == -1)
-     first = i;
-     last = i;
-     }
-     }
-     for (int i = 0; i < a.size(); i++) {
-     if ((a[i] - l) / sqrN == section[1])
-     x.push_back(a[i]);
-     }
-     
-     vector<int> r2 = gao(x, first, last);
-     for (auto t: r2)
-     r1.push_back(t);
-     return r1;
-     */
     vector<int> res;
     int idx = 0;
     for (int i = 0; i < section.size(); i++) {
