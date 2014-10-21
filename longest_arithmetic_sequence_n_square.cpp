@@ -95,6 +95,7 @@ int gao(vector<int> a)
             if (mp[d].size() == 1) {
                 dp[i][j] = max(dp[i][j], dp[mp[d][0]][i] + 1);
                 res = max(res, dp[i][j]);
+                mp.end(d);
             }
         }
         
